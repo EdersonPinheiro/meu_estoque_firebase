@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:estoque/product.dart';
 import 'package:estoque/services/product_service.dart';
 import 'package:estoque/relatorios/pdf_api.dart';
@@ -11,21 +10,13 @@ import 'package:pdf/widgets.dart';
 class PdfMovimentacoes {
   ProductService productService = ProductService();
   late List<Product> _movimentacoes;
-  late String selectedDate;
-  PdfMovimentacoes(this._movimentacoes, this.selectedDate);
+  PdfMovimentacoes(this._movimentacoes);
 
-  void updateProducts() async {
-    final updatedProducts =
-        await productService.getAllProductsRelatorio(selectedDate);
-    _movimentacoes = updatedProducts;
-  }
-
-  List<Product> get movimentacoes => _movimentacoes;
+  List<Product> get products => _movimentacoes;
 
   static Future<File> generate(PdfMovimentacoes api) async {
-    final movimentacoes = api.movimentacoes;
-    final pdf = pw.Document();
-
+    var movimentacoes = api.products;
+    final pdf = Document();
     final customFont =
         Font.ttf(await rootBundle.load('assets/OpenSans-Regular.ttf'));
 
@@ -52,8 +43,12 @@ class PdfMovimentacoes {
                   ]),
                   ...movimentacoes.map((movimentacao) {
                     return pw.TableRow(children: [
-                      pw.Text(movimentacao.userName.substring(0, 18)),
-                      pw.Text(movimentacao.name),
+                      pw.Text(movimentacao.userName.length > 18
+                          ? movimentacao.userName.substring(0, 18)
+                          : movimentacao.userName),
+                      pw.Text(movimentacao.name.length > 18
+                          ? movimentacao.name.substring(0, 18)
+                          : movimentacao.name),
                       pw.Text(movimentacao.movimentacao),
                       pw.Text(movimentacao.lastQuantity),
                       pw.Text(movimentacao.dataMov),
@@ -67,9 +62,13 @@ class PdfMovimentacoes {
         },
       ),
     );
-    return PdfApi.saveDocument(
-      name: 'relatorio_movimentacoes',
-      pdf: pdf,
-    );
+    final now = DateTime.now();
+    final name =
+        'relatorio_movimentacoes_atual_${now.year}_${now.month}_${now.day}_${now.millisecondsSinceEpoch}.pdf';
+    return PdfApi.saveDocument(name: name, pdf: pdf);
   }
+}
+
+String dataFormatada(DateTime data) {
+  return "${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year.toString()}";
 }

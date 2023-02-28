@@ -43,6 +43,14 @@ class AuthController extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      productService.db.collection("users").doc(auth.currentUser?.uid).set({
+        "email": email,
+        "uid": auth.currentUser?.uid,
+        "user_name": userName,
+        "image": "https://source.unsplash.com/random/200x200",
+        "prime": false,
+      });
     } on FirebaseAuthException catch (e) {
       // this is solely for the Firebase Auth Exception
       // for example : password did not match
@@ -100,7 +108,7 @@ class AuthController extends GetxController {
           "uid": auth.currentUser?.uid,
           "user_name": auth.currentUser?.displayName,
           "image": auth.currentUser?.photoURL,
-          "prime": true,
+          "prime": false,
         });
       } on FirebaseAuthException catch (e) {
         Keys.scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(

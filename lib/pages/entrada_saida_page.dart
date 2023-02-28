@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:estoque/edit_product_page.dart';
 import 'package:estoque/product_entrada_saida.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../create_product_page.dart';
 import '../product.dart';
 import '../services/product_service.dart';
 
@@ -26,14 +23,6 @@ class _EntradaSaidaPage extends State<EntradaSaidaPage> {
     List<Product> productsData = await productService.getAllProducts();
     setState(() {
       products = productsData;
-    });
-  }
-
-  void _updateProductsList() {
-    // Recarregue a lista de produtos aqui
-    setState(() {
-      products = []; // Limpe a lista de produtos atual
-      _getProducts(); // Carregue a lista de produtos novamente
     });
   }
 

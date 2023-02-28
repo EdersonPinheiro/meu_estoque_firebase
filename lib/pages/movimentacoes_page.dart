@@ -25,7 +25,6 @@ class _MovimentacoesPageState extends State<MovimentacoesPage> {
   void initState() {
     super.initState();
     _getProducts();
-    //_getLastData();
   }
 
   _getProducts() async {
@@ -34,13 +33,6 @@ class _MovimentacoesPageState extends State<MovimentacoesPage> {
       products = productsData;
     });
   }
-
-  /*_getLastData() async {
-    String productsData = await productService.getLastMovimentacao();
-    setState(() {
-      lastData = productsData;
-    });
-  }*/
 
   @override
   Widget build(BuildContext context) {

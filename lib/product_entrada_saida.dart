@@ -1,3 +1,4 @@
+import 'package:estoque/pages/userInformacoes.dart';
 import 'package:estoque/product.dart';
 import 'package:estoque/services/product_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,10 +23,12 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
   final _descriptionController = TextEditingController();
   final _quantityController = TextEditingController();
   final _lastQuantityController = TextEditingController();
+  List<UserInformacoes>? userInformacoesList;
   bool _isLoading = false;
   late Rx<User?> firebaseUser;
   String? userId;
   String? userName;
+  late UserInformacoes userInformacoes;
 
   void onReady() {
     firebaseUser = Rx<User?>(auth.currentUser);
@@ -34,11 +37,20 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
     userName = auth.currentUser?.displayName.toString();
   }
 
+  _getInfoUser() async {
+    userInformacoesList = await productService.getInfoUser();
+    userInformacoesList?.forEach((element) {
+      setState(() {
+        userName = element.userName;
+      });
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    onReady();
+    _getInfoUser();
   }
 
   setInitialScreen(User? user) {
@@ -121,19 +133,18 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
       final data = DateTime.now();
 
       Product updateESProduct = Product(
-        id: widget.product.id,
-        name: widget.product.name,
-        description: _descriptionController.text,
-        quantity: int.parse(_quantityController.text),
-        imageUrl: widget.product.imageUrl,
-        price: widget.product.price,
-        movimentacao: 'Entrada',
-        lastQuantity: _lastQuantityController.text,
-        dataMov: dataFormatada(data),
-        horaMov: horaFormatada(data),
-        userId: userId.toString(),
-        userName: userName.toString(),
-      );
+          id: widget.product.id,
+          name: widget.product.name,
+          description: _descriptionController.text,
+          quantity: int.parse(_quantityController.text),
+          imageUrl: widget.product.imageUrl,
+          price: widget.product.price,
+          movimentacao: 'Entrada',
+          lastQuantity: _lastQuantityController.text,
+          dataMov: dataFormatada(data),
+          horaMov: horaFormatada(data),
+          userId: userId.toString(),
+          userName: userName.toString());
       await productService.updateProduct(updateESProduct);
       try {
         await productService.createMovimentacao(updateESProduct).then((_) {

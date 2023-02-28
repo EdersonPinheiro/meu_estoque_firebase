@@ -3,11 +3,10 @@ import 'dart:typed_data';
 import 'package:estoque/constants/constants.dart';
 import 'package:estoque/product.dart';
 import 'package:estoque/services/product_service.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'grupo.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class CreateProductPage extends StatefulWidget {
@@ -48,6 +47,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
     setState(() {});
   }
 
+  
   bool uploading = false;
   double total = 0;
   bool loading = false;
@@ -58,9 +58,15 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
+
     setState(() {
-      _imageFile = File(pickedFile!.path);
-      _selectedImage = _imageFile!.path;
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+        _selectedImage = _imageFile!.path;
+      } else {
+        setState(() {
+        });
+      }
     });
   }
 

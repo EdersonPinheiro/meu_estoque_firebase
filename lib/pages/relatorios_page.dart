@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:estoque/product.dart';
 import 'package:estoque/services/product_service.dart';
 import 'package:estoque/relatorios/pdf_movimentacoes_api.dart';
@@ -18,6 +17,7 @@ class RelatoriosPage extends StatefulWidget {
 class _RelatoriosPageState extends State<RelatoriosPage> {
   ProductService productService = ProductService();
   List<Product>? _products;
+  List<Product>? _movimentacao;
   DateTime dateSelected = DateTime.now();
 
   List<Product>? get products => _products;
@@ -25,7 +25,6 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
   @override
   void initState() {
     super.initState();
-    updateProducts();
     updateProductsEstoque();
   }
 
@@ -34,11 +33,7 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
     _products = updatedProducts;
   }
 
-  void updateProducts() async {
-    final updatedProducts =
-        await productService.getAllProductsRelatorio(dateSelected.toString());
-    _products = updatedProducts;
-  }
+  void updateProducts() async {}
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -50,8 +45,11 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
     if (picked != null) {
       setState(() {
         dateSelected = picked;
+        print(picked);
       });
     }
+    _movimentacao = await productService
+        .getAllProductsRelatorio(dataFormatada(dateSelected));
   }
 
   String dataFormatada(DateTime data) {
@@ -67,28 +65,27 @@ class _RelatoriosPageState extends State<RelatoriosPage> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                final api = PdfParagraphApi(products!);
-                setState(() {
-                  api.updateProducts();
+                _products!.forEach((element) {
+                  print(element.name);
+                  print(element.quantity);
                 });
+                final api = PdfParagraphApi(products!);
+                api.updateProducts(); // atualiza a lista de produtos no objeto api
                 final pdfFile = await PdfParagraphApi.generate(api);
                 PdfApi.openFile(pdfFile);
               },
-              child: Text("Relatório de Estoque"),
+              child: Text("Relatório de Estoque Atual"),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
-                _selectDate(context);
+                await _selectDate(context);
                 final api = PdfMovimentacoes(
-                  _products!,
-                  dataFormatada(dateSelected),
+                  _movimentacao!,
                 );
-                setState(() {
-                  api.updateProducts();
-                });
+                //print(dataFormatada(dateSelected));
                 final pdfFile = await PdfMovimentacoes.generate(api);
-                PdfApi.openFile(pdfFile);
+                await PdfApi.openFile(pdfFile);
               },
               child: Text("Relatório de Movimentações"),
             ),

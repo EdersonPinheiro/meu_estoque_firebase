@@ -10,11 +10,9 @@ import 'package:firebase_dart/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'relatorios_page.dart';
 import '../product.dart';
 import '../services/product_service.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

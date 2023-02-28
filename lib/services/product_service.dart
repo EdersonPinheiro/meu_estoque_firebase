@@ -136,6 +136,7 @@ class ProductService {
     var querySnapshot =
         await db.collection('products').where('userId', isEqualTo: id).get();
     // Transforma cada documento em um objeto do modelo de produto e adiciona à lista
+    
     return querySnapshot.docs
         .map((doc) => Product.fromMap({...doc.data()}))
         .toList();
@@ -145,9 +146,8 @@ class ProductService {
     // Obtém todos os documentos da coleção 'products'
     var querySnapshot = await db
         .collection('movimentacao')
-        .where("dataMov", isEqualTo: selected.toString())
+        .where("dataMov", isEqualTo: selected).where("userId", isEqualTo: id)
         .get();
-    // Transforma cada documento em um objeto do modelo de produto e adiciona à lista
     return querySnapshot.docs
         .map((doc) => Product.fromMap({...doc.data()}))
         .toList();
