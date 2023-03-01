@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:estoque/pages/userInformacoes.dart';
 import 'package:estoque/product.dart';
 import 'package:estoque/services/product_service.dart';
@@ -71,6 +72,11 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
         key: _formKey,
         child: Column(
           children: [
+            CachedNetworkImage(
+              imageUrl: widget.product.imageUrl,
+              width: 150,
+              height: 80,
+            ),
             TextFormField(
               controller: _descriptionController,
               decoration: InputDecoration(labelText: 'Descrição'),
@@ -137,8 +143,8 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
           name: widget.product.name,
           description: _descriptionController.text,
           quantity: int.parse(_quantityController.text),
-          imageUrl: widget.product.imageUrl,
           price: widget.product.price,
+          imageUrl: widget.product.imageUrl,
           movimentacao: 'Entrada',
           lastQuantity: _lastQuantityController.text,
           dataMov: dataFormatada(data),
@@ -185,9 +191,9 @@ class _ProductEntradaSaidaState extends State<ProductEntradaSaida> {
         name: widget.product.name,
         description: _descriptionController.text,
         quantity: int.parse(_quantityController.text),
-        imageUrl: widget.product.imageUrl,
         price: widget.product.price,
         movimentacao: 'Saída',
+        imageUrl: widget.product.imageUrl,
         lastQuantity: _lastQuantityController.text,
         dataMov: dataFormatada(data),
         horaMov: horaFormatada(data),

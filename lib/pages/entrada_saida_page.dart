@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:estoque/product_entrada_saida.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,10 +47,14 @@ class _EntradaSaidaPage extends State<EntradaSaidaPage> {
         itemBuilder: (BuildContext context, int index) {
           Product product = products![index];
           return ListTile(
-              leading: Image.network(
-                product.imageUrl,
-                height: 150,
+              leading: Container(
+                height: 170,
                 width: 80,
+                child: CachedNetworkImage(
+                  imageUrl: product.imageUrl,
+                  width: 150,
+                  height: 80,
+                ),
               ),
               title: Text(product.name),
               subtitle: Text(product.description),

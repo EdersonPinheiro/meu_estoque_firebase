@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:estoque/constants/constants.dart';
 import 'package:estoque/grupo.dart';
 import 'package:estoque/services/product_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import 'product.dart';
 
@@ -47,12 +52,54 @@ class _EditProductPageState extends State<EditProductPage> {
     setState(() {});
   }
 
+  File? _imageFile;
+  String? _imageUrl;
+  String? _selectedImage;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    setState(() {
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+        _selectedImage = _imageFile!.path;
+      } else {
+        setState(() {});
+      }
+    });
+  }
+
+  late String downloadUrl;
+  Future<void> _uploadImage() async {
+    final storage = firebase_storage.FirebaseStorage.instance;
+    final ref = storage
+        .ref()
+        .child('${id = auth.currentUser!.uid.toString()}')
+        .child('${DateTime.now()}');
+    final metadata = firebase_storage.SettableMetadata(
+      contentType: 'image/jpeg',
+      customMetadata: {'picked-file-path': _selectedImage!},
+    );
+    final uploadTask = ref.putFile(_imageFile!, metadata);
+    final snapshot = await uploadTask.whenComplete(() {});
+    downloadUrl = await snapshot.ref.getDownloadURL();
+    print("Download URL: ${downloadUrl}");
+    setState(() {
+      _imageUrl = downloadUrl;
+      print("image URL: ${_imageUrl}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Editar Produto'),
-      ),
+      appBar: AppBar(title: Text(widget.product.name), actions: [
+        IconButton(
+            onPressed: () async {
+              await _pickImage(ImageSource.gallery);
+            },
+            icon: Icon(Icons.image))
+      ]),
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -63,10 +110,18 @@ class _EditProductPageState extends State<EditProductPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: _imageController,
-                      decoration: const InputDecoration(labelText: 'Imagem'),
-                    ),
+                    _selectedImage != null
+                        ? Container(
+                            width: 120,
+                            height: 120,
+                            child: Image.file(File(_selectedImage!),
+                                fit: BoxFit.fitHeight),
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: widget.product.imageUrl,
+                            width: 150,
+                            height: 80,
+                          ),
                     TextFormField(
                       controller: _nameController,
                       decoration: const InputDecoration(labelText: 'Nome'),
@@ -109,7 +164,8 @@ class _EditProductPageState extends State<EditProductPage> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await _uploadImage();
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   _isLoading = true;
@@ -120,7 +176,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                   name: _nameController.text,
                                   price: _priceController.text,
                                   description: _descriptionController.text,
-                                  imageUrl: _imageController.text,
+                                  imageUrl: _imageUrl!,
                                   quantity: int.parse(
                                     _quantityController.text,
                                   ),

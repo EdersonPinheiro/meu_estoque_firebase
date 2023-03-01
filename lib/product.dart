@@ -78,7 +78,9 @@ class Product {
       'userName': userName,
       'grupo': grupo
     };
+
     if (imageUrl != null && imageUrl.isNotEmpty) {
+      print(imageUrl);
       data['imageUrl'] = imageUrl;
     } else {
       data['imageUrl'] =

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estoque/edit_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,14 +28,6 @@ class _ProductPageState extends State<ProductsPage> {
     });
   }
 
-  void _updateProductsList() {
-    // Recarregue a lista de produtos aqui
-    setState(() {
-      products = []; // Limpe a lista de produtos atual
-      _getProducts(); // Carregue a lista de produtos novamente
-    });
-  }
-
   void ue() {
     // Recarregue a lista de produtos aqui
     setState(() {
@@ -61,6 +52,8 @@ class _ProductPageState extends State<ProductsPage> {
               width: 80,
               child: CachedNetworkImage(
                 imageUrl: product.imageUrl,
+                width: 150,
+                height: 80,
               ),
             ),
             title: Text(product.name),
@@ -70,8 +63,7 @@ class _ProductPageState extends State<ProductsPage> {
               icon: const Icon(Icons.edit),
               onPressed: () async {
                 // Abre a página de edição de produtos quando o botão é pressionado
-                Get.to(EditProductPage(
-                    product: product, onSave: _updateProductsList));
+                Get.to(EditProductPage(product: product, onSave: ue));
               },
             ),
           );

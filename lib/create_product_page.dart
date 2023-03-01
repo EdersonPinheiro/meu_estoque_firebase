@@ -47,7 +47,6 @@ class _CreateProductPageState extends State<CreateProductPage> {
     setState(() {});
   }
 
-  
   bool uploading = false;
   double total = 0;
   bool loading = false;
@@ -64,8 +63,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
         _imageFile = File(pickedFile.path);
         _selectedImage = _imageFile!.path;
       } else {
-        setState(() {
-        });
+        setState(() {});
       }
     });
   }
@@ -73,10 +71,13 @@ class _CreateProductPageState extends State<CreateProductPage> {
   late String downloadUrl;
   Future<void> _uploadImage() async {
     final storage = firebase_storage.FirebaseStorage.instance;
-    final ref = storage.ref().child('images').child('image.jpg');
+    final ref = storage
+        .ref()
+        .child('${id = auth.currentUser!.uid.toString()}')
+        .child('${DateTime.now()}');
     final metadata = firebase_storage.SettableMetadata(
       contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': _imageFile!.path},
+      customMetadata: {'picked-file-path': _selectedImage!},
     );
     final uploadTask = ref.putFile(_imageFile!, metadata);
     uploading = true;
@@ -84,8 +85,10 @@ class _CreateProductPageState extends State<CreateProductPage> {
       uploading = false;
     });
     downloadUrl = await snapshot.ref.getDownloadURL();
+    print("Download URL: ${downloadUrl}");
     setState(() {
       _imageUrl = downloadUrl;
+      print("image URL: ${_imageUrl}");
     });
   }
 
@@ -215,18 +218,20 @@ class _CreateProductPageState extends State<CreateProductPage> {
         name: _nameController.text,
         price: _priceController.text,
         description: _descriptionController.text,
-        imageUrl: downloadUrl,
+        imageUrl: _imageUrl!,
         id: '',
         quantity: int.parse(_quantityController.text),
         userId: userId.toString(),
         grupo: _selectedGrupo!.nome.toString(),
       );
+      print(createProduct.toString());
       await productService.createProduct(createProduct).then((_) {
         setState(() {
           _isLoading = false;
         });
         // Chame o callback após salvar o produto
         widget.onSave();
+
         Navigator.of(context).pop();
       });
 
