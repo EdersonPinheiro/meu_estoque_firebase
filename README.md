@@ -4,34 +4,42 @@ Esse projeto se trata de um aplicativo de controle de estoque, onde é possível
 As imagens e os dados estão sendo vinculados ao firebase.
 Autenticação com Google.
 
-![Captura de tela 2023-09-06 132617](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/f00f7d69-14d1-480c-be45-657273e72523)
+![1](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/dc08f899-3d0c-4d35-94a5-ddcdf65f8b96)
 
 
-![Captura de tela 2023-09-06 132638](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/5e857a48-0cef-4ae1-a100-775a8cbd0444)
+
+![2](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/1ea8db50-6a45-41a4-abda-2086d4f31599)
 
 
-![Captura de tela 2023-09-06 132725](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/1d249e8d-754d-42c0-b44c-a2b7f1bf9900)
+
+![3](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/e3f1e193-12c6-4154-8235-c284d029338c)
 
 
-![Captura de tela 2023-09-06 132742](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/09f22642-2cc7-4aaf-8ad4-d3c8d0a638c6)
+
+![4](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/b2271604-a9c5-4c38-a6d0-25239ee99116)
 
 
-![Captura de tela 2023-09-06 133002](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/2cbfaef4-f1cf-40ee-ab45-3938ea55ed07)
+
+![5](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/f8e814b3-fbaf-4dc1-b697-3999334a3d89)
 
 
-![Captura de tela 2023-09-06 133015](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/8170b72a-0c92-4e49-83c8-fe1e76035e7d)
+
+![6](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/8c7e21eb-c68b-457b-b791-be79f801b0a4)
 
 
-![Captura de tela 2023-09-06 133031](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/7188e242-aee1-4a36-af85-6e0548865a19)
+
+![7](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/d6ad55c3-7557-4f77-85ee-29284862381e)
 
 
-![Captura de tela 2023-09-06 133057](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/a5c229bf-0ca6-414a-9471-4c89426d7514)
+![8](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/b29fabbb-cbd9-4ba7-9d15-c7994487d959)
 
 
-![Captura de tela 2023-09-06 133126](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/1212d31c-f669-4bf5-aded-185b25467b29)
+![9](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/04750f49-4c9a-473d-a248-19824799a5c7)
 
 
-![Captura de tela 2023-09-06 133144](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/b292b87c-a558-4844-953a-bd6f36f62d7e)
+
+![10](https://github.com/EdersonPinheiro/meu_estoque/assets/88673530/4d7e04d6-ef10-4580-bf17-98537059b187)
+
 
 
 
