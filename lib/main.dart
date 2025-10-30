@@ -47,7 +47,7 @@ class PaymentDemo extends StatelessWidget {
       Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
         paymentIntentClientSecret: jsonResponse['paymentIntent'],
-        merchantDisplayName: 'É u Eds',
+        merchantDisplayName: '',
         customerId: jsonResponse['customer'],
         customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
       ));
@@ -74,3 +74,4 @@ class PaymentDemo extends StatelessWidget {
     );
   }
 }
+
